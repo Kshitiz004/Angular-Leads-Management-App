@@ -6,10 +6,10 @@ import { ApiService } from '../api.service'; // Adjust the path as necessary
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  hide: boolean = true; // For toggling password visibility
+  hide: boolean = true; // Initialize as true for password to be hidden
   email!: string;
   password!: string;
   isLoading: boolean = false; // Loader visibility flag
@@ -28,20 +28,12 @@ export class LoginComponent {
 
     this.isLoading = true; // Show loader
 
-    // Call login method in ApiService
     this.apiService.login(this.email, this.password).subscribe({
       next: (response: any) => {
-  
-        
-        if (response && response.result && response.result.token) {
-          // Store token and navigate to leads
-          this.apiService.setToken(response.result.token);
-          this.apiService.setCurrentUser(response.result.user);
-          this.toastr.success('Login successful!', 'Success');
-          this.router.navigate(['/leads']);
-        } else {
-          this.toastr.error('Invalid login response.', 'Error');
-        }
+        console.log(response);
+        localStorage.setItem('token', response.result.token);
+        this.toastr.success('Login successful!', 'Success');
+        this.router.navigate(['/leads']);
       },
       error: (error) => {
         console.error('Login failed', error);
@@ -49,7 +41,7 @@ export class LoginComponent {
       },
       complete: () => {
         this.isLoading = false; // Hide loader
-      }
+      },
     });
   }
 }
