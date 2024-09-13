@@ -3,6 +3,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../api.service';  // Adjust the path as necessary
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-leads',
@@ -34,7 +35,7 @@ export class LeadsComponent implements OnInit {
   ];
   selectedLeads: Set<any> = new Set();
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.getLeads();
@@ -45,16 +46,21 @@ export class LeadsComponent implements OnInit {
     if (token) {
       this.apiService.getLeads(token).subscribe({
         next: (response: any) => {
-          this.leads.data = response.data;
+          if (response && response.data && Array.isArray(response.data)) {
+            this.leads.data = response.data;
+          } else {
+            console.error('Unexpected response format', response);
+            this.snackBar.open('Unexpected response format. Please try again later.', 'Close', { duration: 5000 });
+          }
         },
         error: (error: HttpErrorResponse) => {
           console.error('Failed to fetch leads', error);
-          // Handle error (show message to user)
+          this.snackBar.open('Failed to fetch leads. Please try again later.', 'Close', { duration: 5000 });
         }
       });
     } else {
       console.error('No token found');
-      // Handle case when no token is available
+      this.snackBar.open('No authentication token found. Please log in again.', 'Close', { duration: 5000 });
     }
   }
 
@@ -71,6 +77,18 @@ export class LeadsComponent implements OnInit {
       this.selectedLeads.delete(lead);
     } else {
       this.selectedLeads.add(lead);
+    }
+  }
+
+  // Method to handle the action on selected leads
+  handleSelectedLeadsAction() {
+    if (this.selectedLeads.size > 0) {
+      // Implement the action you want to perform on selected leads
+      console.log('Performing action on selected leads', Array.from(this.selectedLeads));
+      // Show success message or notification
+      this.snackBar.open('Action performed successfully.', 'Close', { duration: 3000 });
+    } else {
+      this.snackBar.open('No leads selected. Please select leads to perform the action.', 'Close', { duration: 5000 });
     }
   }
 }

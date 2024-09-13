@@ -19,6 +19,7 @@ export class ApiService {
 
   getLeads(token: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post(`${this.baseUrl}/getLeads`, {}, { headers });
+    return this.http.get(`${this.baseUrl}/getLeads`, { headers });
   }
+  
 }
