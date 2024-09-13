@@ -30,7 +30,9 @@ export class LoginComponent {
 
     this.apiService.login(this.email, this.password).subscribe({
       next: (response: any) => {
-        localStorage.setItem('token', response.token);
+        console.log(response);
+        
+        localStorage.setItem('token', response.result.token);
         this.toastr.success('Login successful!', 'Success');
         this.router.navigate(['/leads']);
       },
