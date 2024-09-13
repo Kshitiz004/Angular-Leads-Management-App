@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ApiService } from '../api.service';  // Adjust the path as necessary
+import { ApiService } from '../api.service'; // Adjust the path as necessary
 
 @Component({
   selector: 'app-login',
@@ -9,7 +9,7 @@ import { ApiService } from '../api.service';  // Adjust the path as necessary
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  hide: boolean = true; // Initialize as true for password to be hidden
+  hide: boolean = true; // For toggling password visibility
   email!: string;
   password!: string;
   isLoading: boolean = false; // Loader visibility flag
@@ -28,13 +28,20 @@ export class LoginComponent {
 
     this.isLoading = true; // Show loader
 
+    // Call login method in ApiService
     this.apiService.login(this.email, this.password).subscribe({
       next: (response: any) => {
-        console.log(response);
+  
         
-        localStorage.setItem('token', response.result.token);
-        this.toastr.success('Login successful!', 'Success');
-        this.router.navigate(['/leads']);
+        if (response && response.result && response.result.token) {
+          // Store token and navigate to leads
+          this.apiService.setToken(response.result.token);
+          this.apiService.setCurrentUser(response.result.user);
+          this.toastr.success('Login successful!', 'Success');
+          this.router.navigate(['/leads']);
+        } else {
+          this.toastr.error('Invalid login response.', 'Error');
+        }
       },
       error: (error) => {
         console.error('Login failed', error);

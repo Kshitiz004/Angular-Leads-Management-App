@@ -51,7 +51,7 @@ export class LeadsComponent implements OnInit {
     if (this.platformBrowser) {
       const token = localStorage.getItem('token');
       if (token) {
-        this.apiService.getLeads(token).subscribe({
+        this.apiService.getLeads().subscribe({
           next: (response: any) => {
             if (response && Array.isArray(response.data)) {
               this.leads.data = response.data;
