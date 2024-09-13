@@ -1,0 +1,113 @@
+$primary-color: #5a3ef9;
+$background-color: #eae0ff;
+$white: #ffffff;
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: $background-color;
+}
+
+.login-box {
+    display: flex;
+    width: 900px;
+    background-color: $white;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.login-left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 30px;
+    background-color: $background-color;
+
+    .logo {
+        width: 150px;
+        margin-bottom: 20px;
+    }
+
+    .illustration {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+.login-right {
+    flex: 1;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    h2 {
+        margin-bottom: 30px;
+        font-size: 24px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .login-form {
+        width: 100%;
+
+        .full-width {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+
+            a {
+                color: $primary-color;
+                text-decoration: none;
+                font-size: 14px;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        button {
+            background-color: $primary-color;
+            color: $white;
+
+            &:hover {
+                background-color: darken($primary-color, 10%);
+            }
+        }
+    }
+
+    .login-container {
+        position: relative;
+        // Other styles for your login container
+      }
+      
+      .loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 8px solid #f3f3f3; /* Light grey */
+        border-top: 8px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+
+}

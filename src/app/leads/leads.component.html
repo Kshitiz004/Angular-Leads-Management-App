@@ -1,0 +1,174 @@
+<div class="dashboard-container">
+    <!-- Tab Navigation -->
+    <div class="tabs">
+        <button class="tab-button active">ALL</button>
+        <button class="tab-button">Today My Assigned</button>
+        <button class="tab-button">My Favourites</button>
+        <button class="tab-button">CSL</button>
+        <button class="tab-button">CLL</button>
+        <button class="tab-button">Unverified</button>
+        <button class="tab-button">Untouched</button>
+        <button class="tab-button">Re-Enquired</button>
+        <button class="tab-button">Call Back Later Stage</button>
+        <button class="tab-button">Not Interested Stage</button>
+        <span class="total-leads">Total Leads: 98238</span>
+    </div>
+
+    <!-- Followups Section -->
+    <div class="followups-section">
+        <div class="followups-filters">
+            <span class="label">My Followups:</span>
+            <button class="filter-button active">
+                <mat-icon>calendar_today</mat-icon> Today
+            </button>
+            <button class="filter-button">
+                <mat-icon>check_circle</mat-icon> Done
+            </button>
+            <button class="filter-button">
+                <mat-icon>phone_missed</mat-icon> Missed
+            </button>
+            <button class="filter-button">
+                <mat-icon>calendar_today</mat-icon> Upcoming
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter and Sort Section -->
+    <div class="filter-sort-section">
+        <div class="sort-filter">
+            <button class="filter-button">
+                <mat-icon>filter_list</mat-icon> Filter
+            </button>
+            <select class="sort-dropdown">
+                <option>
+                    <mat-icon>sort</mat-icon> Sorting: Latest
+                </option>
+                <option>
+                    <mat-icon>sort</mat-icon> Sorting: Oldest
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Quick View Section -->
+    <div class="quick-view">
+        <span>Quick View:</span>
+        <select class="view-dropdown">
+            <option>System default view</option>
+        </select>
+        <button class="add-button">Add</button>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-section">
+        <mat-table [dataSource]="leads" class="mat-elevation-z8">
+            <ng-container matColumnDef="select">
+                <mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="toggleAllRows($event)"></mat-checkbox>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let lead">
+                    <mat-checkbox (change)="toggleRow(lead)"></mat-checkbox>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="leadId">
+                <mat-header-cell *matHeaderCellDef> Lead ID </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.leadId}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="prospectName">
+                <mat-header-cell *matHeaderCellDef> Prospect Name </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.prospectName}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="phone">
+                <mat-header-cell *matHeaderCellDef> Phone </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.phone}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.email}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="college">
+                <mat-header-cell *matHeaderCellDef> College </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.college}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="course">
+                <mat-header-cell *matHeaderCellDef> Course </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.course}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="applicationForm">
+                <mat-header-cell *matHeaderCellDef> Application Form </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.applicationForm}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="lastOutgoing">
+                <mat-header-cell *matHeaderCellDef> Last Outgoing </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.lastOutgoing}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="lastOutgoingCallStatus">
+                <mat-header-cell *matHeaderCellDef> Last Outgoing Call Status </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.lastOutgoingCallStatus}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="lastOutgoingCallAt">
+                <mat-header-cell *matHeaderCellDef> Last Outgoing Call At </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.lastOutgoingCallAt}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="lastActivity">
+                <mat-header-cell *matHeaderCellDef> Last Activity </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.lastActivity}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="leadPriority">
+                <mat-header-cell *matHeaderCellDef> Lead Priority </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.leadPriority}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="instanceType">
+                <mat-header-cell *matHeaderCellDef> Instance Type </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.instanceType}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="leadInstanceSource">
+                <mat-header-cell *matHeaderCellDef> Lead Instance Source </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.leadInstanceSource}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="leadType">
+                <mat-header-cell *matHeaderCellDef> Lead Type </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.leadType}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="leadOwnerAssignmentAge">
+                <mat-header-cell *matHeaderCellDef> Lead Owner Assignment Age </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.leadOwnerAssignmentAge}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="leadOwner">
+                <mat-header-cell *matHeaderCellDef> Lead Owner </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> {{lead.leadOwner}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+                <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+                <mat-cell *matCellDef="let lead"> <!-- Action buttons here --> </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <mat-paginator [length]="100" [pageSize]="10"></mat-paginator>
+    </div>
+</div>
