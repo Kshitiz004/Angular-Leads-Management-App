@@ -1,24 +1,30 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private corsProxyUrl: string = 'https://cors-anywhere.herokuapp.com/';
   private baseUrl: string = 'https://dev-cc.automateazy.com/api/v1';
-  private apiUrl = `${this.corsProxyUrl}https://dev-cc.automateazy.com/api/v1/users/auth`;
+  private apiUrl = `${this.baseUrl}/users/auth`;
   private tokenKey = 'authToken';
   private currentUserKey = 'currentUser';
   private persistKey = 'persist';
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
+  // Function to verify login credentials and save the token
   login(username: string, password: string): Observable<any> {
     return this.http.post(this.apiUrl, { username, password }).pipe(
+      tap((response: any) => {
+        if (response.token) {
+          this.setToken(response.token);
+          this.setCurrentUser(response.user); // Assuming response contains user data
+        }
+      }),
       catchError((error) => this.handleError(error))
     );
   }
@@ -81,8 +87,10 @@ export class ApiService {
   }
 
   getLeads(): Observable<any> {
-    // const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${this.baseUrl}/getLeads`).pipe(
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(`${this.baseUrl}/getLeads`, { headers }).pipe(
       catchError((error) => this.handleError(error))
     );
   }
